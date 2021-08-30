@@ -211,6 +211,29 @@ ceiling() --向上取整
 
 
 
+###递归
+
+```sql
+WITH
+    t1(v1,v2) as(SELECT 1,3),
+    t2(w1,w2) as(
+    SELECT v1*2, v2*2
+    from t1
+    )
+select * from t1,t2;
+
+-- RECURSIVE 递归标识  limit 20 结束标识
+WITH RECURSIVE t(v) AS (
+    SELECT 3
+    UNION ALL
+    SELECT v * 2
+    FROM t
+)
+SELECT v from t limit 20;
+```
+
+
+
 
 
 
