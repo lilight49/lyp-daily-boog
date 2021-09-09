@@ -211,7 +211,7 @@ ceiling() --向上取整
 
 
 
-###递归
+### 递归
 
 ```sql
 WITH
@@ -234,7 +234,53 @@ SELECT v from t limit 20;
 
 
 
+### 窗口函数
 
+```sql
+function(....) OVER(
+	PARTITION BY ....
+    ORDER BY ....
+    ROWS BETWEEN .... AND ....
+)
+
+-- PRATITION : 窗口只考虑与当前行为统一分区的行
+-- ORDER : 窗口排序可以独立与我们选择的内容
+-- ROWS (或RANGE)框架定义 : 窗口可以被限制在固定数量的行"前面"和"后面"
+```
+
+## sql拆解
+
+
+
+### sql函数(string_agg、array_agg、unnest、with ordinality)
+
+```sql
+WITH t(i) AS (VALUES (1), (3), (5), (7), (9))
+SELECT (
+           SELECT string_agg(ROW (i,o)::text, ',') FROM unnest(array_agg(t.i)) WITH ORDINALITY AS u(i, o)
+       )
+FROM t;
+```
+
+### 
+
+```sql
+string_agg(expression, delimiter)
+-- 作用:把表达式变成字符串
+
+array_agg(expression)
+-- 作用:把表达式变成数组
+
+unnest(anyArray)  -- 返回值setof anyElement(可以理解为一个临时的表)
+
+WITH ORDINALITY -- 必须在from 子句中使用,并且必须跟在函数后面使用
+```
+
+### 双冒号作用
+
+```text
+双冒号为类型转换
+```
 
 
 
